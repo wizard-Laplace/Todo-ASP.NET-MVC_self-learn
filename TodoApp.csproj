@@ -231,8 +231,10 @@
     <Compile Include="Models\CustomMembershipProvider.cs" />
     <Compile Include="Models\CustomRoleProvider.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Todo.cs" />
     <Compile Include="Models\TodoesContext.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
