@@ -46,7 +46,7 @@ namespace TodoApp.Controllers
         // 詳細については、https://go.microsoft.com/fwlink/?LinkId=317598 を参照してください。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Summary,Detail,Limit,Done")] Todo todo)
+        public ActionResult Create([Bind(Include = "Id,Summary,Detail,Limit")] Todo todo)
         {
             if (ModelState.IsValid)
             {
