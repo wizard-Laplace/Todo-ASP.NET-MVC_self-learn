@@ -11,6 +11,12 @@
         @if (Request.IsAuthenticated)
         {
             @Html.ActionLink("ログアウト","SignOut",new { Controller = "Login"})
+
+            if(User.IsInRole("Administrators"))
+            {
+                <span>|</span>
+                @Html.ActionLink("ユーザー管理", "Index", new { Controller = "Users" });
+            }
         }
     </div>
     <div class="container">
