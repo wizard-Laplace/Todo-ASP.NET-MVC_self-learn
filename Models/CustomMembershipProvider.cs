@@ -107,14 +107,23 @@ namespace TodoApp.Models
 
         public override bool ValidateUser(string username, string password)
         {
-            if("administrator".Equals(username) && "password".Equals(password))
+            //usingディレクティブを使用することで変数"db"はusingディレクティブ内でのみ参照できる。
+            //また、usingディレクティブの処理を抜けるタイミングで自動で変数"db"に対してdisposeメソッドが実行され、
+            //メモリの管理が行われる。
+            using (var db = new TodoesContext())
             {
-                return true;
+                var user = db.Users
+                    .Where(u => u.UserName == username && u.Password == password)
+                    //FirstOrDefaultはWhereの抽出結果リストの先頭を返す。
+                    //或いはリストが空ならnullを返す
+                    .FirstOrDefault();
+
+                if(user != null)
+                {
+                    return true;
+                }
             }
-            if("user".Equals(username) && "password".Equals(password))
-            {
-                return true;
-            }
+
             return false;
         }
     }
