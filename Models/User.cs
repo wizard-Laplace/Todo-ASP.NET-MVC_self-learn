@@ -25,5 +25,9 @@ namespace TodoApp.Models
 
         //ナヴィゲーションプロパティに修飾子virtualが必要
         public virtual ICollection<Role> Roles { get; set; }
+
+        [NotMapped]
+        [DisplayName("ロール")]
+        public List<int> RoleIds { get; set; }
     }
 }
