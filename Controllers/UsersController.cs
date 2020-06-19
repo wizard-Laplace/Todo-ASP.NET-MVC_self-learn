@@ -49,15 +49,20 @@ namespace TodoApp.Controllers
         // 詳細については、https://go.microsoft.com/fwlink/?LinkId=317598 を参照してください。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserName,Password")] User user)
+        public ActionResult Create([Bind(Include = "Id,UserName,Password,RoleIds")] User user)
         {
+            var roles = db.Roles.Where(role => user.RoleIds.Contains(role.Id)).ToList();
+
             if (ModelState.IsValid)
             {
+                user.Roles = roles;
+
                 db.Users.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
+            this.SetRoles(roles);
             return View(user);
         }
 
@@ -82,14 +87,32 @@ namespace TodoApp.Controllers
         // 詳細については、https://go.microsoft.com/fwlink/?LinkId=317598 を参照してください。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserName,Password")] User user)
+        public ActionResult Edit([Bind(Include = "Id,UserName,Password,RoleIds")] User user)
         {
+            var roles = db.Roles.Where(role => user.RoleIds.Contains(role.Id)).ToList();
+
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                var dbUser = db.Users.Find(user.Id);
+                if(dbUser == null)
+                {
+                    return HttpNotFound();
+                }
+
+                dbUser.UserName = user.UserName;
+                dbUser.Password = user.Password;
+                dbUser.Roles.Clear();
+                foreach(var role in roles)
+                {
+                    dbUser.Roles.Add(role);
+                }
+
+                db.Entry(dbUser).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            this.SetRoles(roles);
             return View(user);
         }
 
