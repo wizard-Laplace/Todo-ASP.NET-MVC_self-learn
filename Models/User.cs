@@ -13,7 +13,7 @@ namespace TodoApp.Models
         public int Id { get; set; }
 
         [Required]
-        [Index(IsUnique =true)]
+        [Index(IsUnique = true)]
         [StringLength(256)]
         [DisplayName("ユーザー名")]
         public string UserName { get; set; }
