@@ -132,10 +132,12 @@ namespace TodoApp.Models
             ///TODO 仮の処理の為、後で削除する
             //現在dbに格納されているパスワードはハッシュ化されており、
             //ログイン方法が無い為、adminユーザーのみログオン方法を担保する
-            if("admin".Equals(username) && "passowrd".Equals(password))
-            {
-                return true;
-            }
+            
+            ///adminのハッシュパスワード処理は終了した為、不要
+            //if("admin".Equals(username) && "passowrd".Equals(password))
+            //{
+            //    return true;
+            //}
 
             return false;
         }

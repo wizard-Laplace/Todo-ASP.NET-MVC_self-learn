@@ -31,13 +31,14 @@
                 Roles = new List<Role>()
             };
 
-            User kimura = new User()
-            {
-                Id = 2,
-                UserName = "kimura",
-                Password = "password",
-                Roles = new List<Role>()
-            };
+            ///下記処理は検証に使用していた為、不要
+            //User kimura = new User()
+            //{
+            //    Id = 2,
+            //    UserName = "kimura",
+            //    Password = "password",
+            //    Roles = new List<Role>()
+            //};
 
             Role administrators = new Role()
             {
@@ -53,12 +54,19 @@
                 Users = new List<User>()
             };
 
+            //adminのパスワードを取得する為にインスタンス生成しておく
+            var membershipProvider = new CustomMembershipProvider();
+            //adminのパスワードをハッシュ化し、取得する
+            admin.Password = membershipProvider.GeneratePasswordHash(admin.UserName, admin.Password);
+
             admin.Roles.Add(administrators);
             administrators.Users.Add(admin);
-            kimura.Roles.Add(users);
-            users.Users.Add(kimura);
+            ///下記処理も検証に使用ていた為、不要
+            //kimura.Roles.Add(users);
+            //users.Users.Add(kimura);
 
-            context.Users.AddOrUpdate(user => user.Id, new User[] { admin, kimura });
+            //下記の第二引数のkimuraを削除
+            context.Users.AddOrUpdate(user => user.Id, new User[] { admin });
             context.Roles.AddOrUpdate(role => role.Id, new Role[] { administrators, users });
         }
     }
