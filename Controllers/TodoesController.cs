@@ -18,7 +18,19 @@ namespace TodoApp.Controllers
         // GET: Todoes
         public ActionResult Index()
         {
-            return View(db.Todoes.ToList());
+            //dbから現在のログインユーザーオブジェクトを取得する
+            //ログインユーザー名(User.Identity.Nameとユーザー名(UserName)が一致する
+            //ユーザー名を取得する
+            var user = db.Users.Where(item => item.UserName == User.Identity.Name).FirstOrDefault();
+
+            //ログインユーザーがnullでないかのチェック(念の為)
+            if(user != null)
+            {
+                return View(user.Todoes);
+            }
+
+            //userがnullの場合空のListを返す
+            return View(new List<Todo>());
         }
 
         // GET: Todoes/Details/5
@@ -51,9 +63,18 @@ namespace TodoApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Todoes.Add(todo);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                ///作成したTodoがログインユーザーの物になるように設定
+                //ログインユーザーのオブジェクトを取得する
+                var user = db.Users.Where(item => item.UserName == User.Identity.Name).FirstOrDefault();
+
+                if(user != null)
+                {
+                    todo.User = user;
+
+                    db.Todoes.Add(todo);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             return View(todo);

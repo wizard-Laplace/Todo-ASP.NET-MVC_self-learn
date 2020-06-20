@@ -29,5 +29,11 @@ namespace TodoApp.Models
         [NotMapped]
         [DisplayName("ロール")]
         public List<int> RoleIds { get; set; }
+
+        //1人のUserは複数のTodoを持つのでUserクラスはTodoのCollectionを持たせる
+        //Navigationプロパティによって、UserクラスとTodoのクラスは1:Nの関係
+        //この場合EntityFrameworkによってTodoesテーブルにユーザーIDという外部キーが作成される
+        //サーバーエクスプローラーで確認可能(DBだからね)
+        public virtual ICollection<Todo> Todoes { get; set; }
     }
 }

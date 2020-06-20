@@ -17,5 +17,8 @@ namespace TodoApp.Models
         public DateTime Limit{ get; set; }
         [DisplayName("完了")]
         public bool Done { get; set; }
+
+        //Userプロパティを追加し、Todo.csとUserクラスを紐づける
+        public virtual User User { get; set; }
     }
 }
